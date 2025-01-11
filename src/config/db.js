@@ -13,7 +13,7 @@ const MAX_RETRIES = 5;
 async function connectMongo(retries = MAX_RETRIES) {
   while (retries) {
     try {
-      mongoClient = new MongoClient(config.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoClient = new MongoClient(config.mongodb.uri);
       await mongoClient.connect();
       db = mongoClient.db(config.mongoDbName);
       console.log('Connected to MongoDB');
@@ -34,7 +34,7 @@ async function connectMongo(retries = MAX_RETRIES) {
 async function connectRedis(retries = MAX_RETRIES) {
   while (retries) {
     try {
-      redisClient = redis.createClient({ url: config.redisUri });
+    redisClient = redis.createClient({ url: config.redis.uri });
       redisClient.on('error', (err) => console.error('Redis Client Error', err));
       await redisClient.connect();
       console.log('Connected to Redis');
