@@ -72,4 +72,5 @@ module.exports = {
   closeConnections,
   getDb: () => db,
   getRedisClient: () => redisClient,
+  getMongoClient: () => mongoClient,
 };
