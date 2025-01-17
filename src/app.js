@@ -16,6 +16,14 @@ async function startServer() {
     // TODO: Configurer les middlewares Express
     // TODO: Monter les routes
     // TODO: Démarrer le serveur
+    await db.connectMongo();
+    await db.connectRedis();
+    app.use(express.json());
+    app.use('/api/courses', courseRoutes);
+    const PORT = config.port;
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
   } catch (error) {
     console.error('Failed to start server:', error);
     process.exit(1);
@@ -24,7 +32,9 @@ async function startServer() {
 
 // Gestion propre de l'arrêt
 process.on('SIGTERM', async () => {
-  // TODO: Implémenter la fermeture propre des connexions
+  console.info('SIGTERM signal received.');
+  await db.closeConnections();
+  process.exit(0);
 });
 
 startServer();
