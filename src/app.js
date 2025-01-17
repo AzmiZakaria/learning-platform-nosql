@@ -6,7 +6,6 @@ const config = require('./config/env');
 const db = require('./config/db');
 
 const courseRoutes = require('./routes/courseRoutes');
-const studentRoutes = require('./routes/studentRoutes');
 
 const app = express();
 
@@ -19,7 +18,7 @@ async function startServer() {
     await db.connectMongo();
     await db.connectRedis();
     app.use(express.json());
-    app.use('/api/courses', courseRoutes);
+    app.use('/', courseRoutes);
     const PORT = config.port;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
