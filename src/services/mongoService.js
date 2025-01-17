@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 // Fonctions utilitaires pour MongoDB
 async function findOneById(collection, id) {
   try {
-    const objectId = new ObjectId();
+    const objectId = new ObjectId(id);
     const result = await collection.findOne({ _id: objectId });
     return result;
   } catch (error) {
@@ -14,8 +14,41 @@ async function findOneById(collection, id) {
     throw error;
   }
 }
+async function insertOne(collection, document) {
+  try {
+    const result = await collection.insertOne(document);
+    return result;
+  } catch (error) {
+    console.error('Error inserting document:', error);
+    throw error;
+  }
+}
 
-// Export des services
+async function updateOneById(collection, id, update) {
+  try {
+    const objectId = new ObjectId(id);
+    const result = await collection.updateOne({ _id: objectId }, { $set: update });
+    return result;
+  } catch (error) {
+    console.error('Error updating document by ID:', error);
+    throw error;
+  }
+}
+
+async function deleteOneById(collection, id) {
+  try {
+    const objectId = new ObjectId(id);
+    const result = await collection.deleteOne({ _id: objectId });
+    return result;
+  } catch (error) {
+    console.error('Error deleting document by ID:', error);
+    throw error;
+  }
+}
+
 module.exports = {
   findOneById,
+  insertOne,
+  updateOneById,
+  deleteOneById,
 };
