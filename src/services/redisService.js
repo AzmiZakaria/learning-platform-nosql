@@ -22,7 +22,40 @@ async function cacheData(key, data, ttl) {
     });
   });
 }
+async function getCachedData(key) {
+  return new Promise((resolve, reject) => {
+    client.get(key, (err, reply) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(JSON.parse(reply));
+    });
+  });
+}
 
+async function deleteCachedData(key) {
+  return new Promise((resolve, reject) => {
+    client.del(key, (err, reply) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(reply);
+    });
+  });
+}
+async function getTTL(key) {
+  return new Promise((resolve, reject) => {
+    client.ttl(key, (err, ttl) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(ttl);
+    });
+  });
+}
 module.exports = {
-  cacheData
+  cacheData,
+  getCachedData,
+  deleteCachedData,
+  getTTL,
 };
