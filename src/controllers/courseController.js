@@ -7,6 +7,8 @@ const { ObjectId } = require('mongodb');
 const db = require('../config/db');
 const mongoService = require('../services/mongoService');
 const redisService = require('../services/redisService');
+const CACHE_PREFIX = 'course';
+const CACHE_TTL = 3600;
 
 async function createCourse(req, res) {
   try {
@@ -17,6 +19,12 @@ async function createCourse(req, res) {
   }
 }
 async function getCourse(req, res) {
+  const cacheKey = `${CACHE_PREFIX}:${req.params.id}`;
+  const cache = await redisService.getCachedData(cacheKey);
+  if (cache){
+      res.status(200).json(cache);
+      return;
+  }
   const courseId = req.params.id;
   if (!ObjectId.isValid(courseId)) {
     return res.status(400).send('Invalid course ID');
@@ -26,6 +34,7 @@ async function getCourse(req, res) {
   if (!course) {
     return res.status(404).send('Course not found');
   }
+  await redisService.cacheData(cacheKey, course, CACHE_TTL);
 
   res.status(200).json(course);
 }
@@ -59,7 +68,20 @@ async function deleteCourse(req, res) {
 }
 async function getCourses(req, res) {
   try {
+    const cache = await redisService.getCachedData(`${CACHE_PREFIX}:all`);
+    if (cache){
+        res.status(200).json(cache);
+        console.log('Cache hit');
+        return;
+    }
     const courses = await mongoService.findAll('courses');
+    const work=await redisService.cacheData(`${CACHE_PREFIX}:all`, courses, CACHE_TTL);
+    if(!work){
+        console.log('Error caching data');
+    }
+    else{
+        console.log('Data cached');
+    }
     res.status(200).json(courses);
   } catch (error) {
     console.error('Error fetching courses:', error);

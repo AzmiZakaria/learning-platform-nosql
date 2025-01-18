@@ -61,7 +61,7 @@ Pour installer et lancer le projet, suivez les étapes ci-dessous :
 
 2. **Redis CLI :**
    Outil en ligne de commande pour gérer et déboguer les données en cache Redis.
-   ![Redis](img/redis-cli.png)
+   ![Redis](img//Redis_cli.png)
 
 ### acces a main route `http://localhost:3000/`
 ![mainroute](img/test_run.png)
