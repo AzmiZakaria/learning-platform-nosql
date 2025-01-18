@@ -17,7 +17,7 @@ Pour installer et lancer le projet, suivez les étapes ci-dessous :
    Créez un fichier `.env` à la racine du projet et ajoutez les variables nécessaires.
 4. **Lancer le serveur :**
    ```bash
-   npm start
+   npm start /src/app.js
    ```
 
 5. **Accéder à l'API :**
@@ -55,5 +55,15 @@ Pour installer et lancer le projet, suivez les étapes ci-dessous :
    - Redis : Utilisé comme cache pour améliorer les performances de l'application en stockant temporairement les données fréquemment consultées. Redis est une base de données en mémoire, clé-valeur, qui offre des temps de réponse très rapides.
 
 ### Les Outils
-1. MongoDB Compass: Pour connecter
-2. Redis CLI:
+1. **MongoDB Compass :**
+   Interface graphique pour visualiser, analyser et manipuler les données MongoDB.
+   ![MongoDB](img/compass.png)
+
+2. **Redis CLI :**
+   Outil en ligne de commande pour gérer et déboguer les données en cache Redis.
+   ![Redis](img/redis-cli.png)
+
+### acces a main route `http://localhost:3000/`
+![mainroute](img/test_run.png)
+
+
