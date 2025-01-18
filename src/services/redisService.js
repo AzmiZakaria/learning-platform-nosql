@@ -7,51 +7,54 @@ const redis = require('redis');
 
 // Fonctions utilitaires pour Redis
 const client = redis.createClient();
+const db = require('../config/db');
 
 client.on('error', (err) => {
   console.error('Redis error:', err);
 });
 
-async function cacheData(key, data, ttl) {
-  return new Promise((resolve, reject) => {
-    client.set(key, JSON.stringify(data), 'EX', ttl, (err, reply) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(reply);
+async function cacheData(key, data, ttl = 3600) {
+  try {
+    const client = db.getRedisClient();
+    await client.set(key, JSON.stringify(data), {
+      EX: ttl
     });
-  });
+    return true;
+  } catch (error) {
+    console.error('Redis cache error:', error);
+    return false;
+  }
 }
 async function getCachedData(key) {
-  return new Promise((resolve, reject) => {
-    client.get(key, (err, reply) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(JSON.parse(reply));
-    });
-  });
+  try {
+    const client = db.getRedisClient();
+    const data = await client.get(key);
+    return data ? JSON.parse(data) : null;
+  } catch (error) {
+    console.error('Redis get error:', error);
+    return null;
+  } 
 }
 
 async function deleteCachedData(key) {
-  return new Promise((resolve, reject) => {
-    client.del(key, (err, reply) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(reply);
-    });
-  });
+  try {
+    const client = db.getRedisClient();
+    await client.del(key);
+    return true;
+  } catch (error) {
+    console.error('Redis delete error:', error);
+    return false;
+  }
 }
 async function getTTL(key) {
-  return new Promise((resolve, reject) => {
-    client.ttl(key, (err, ttl) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(ttl);
-    });
-  });
+  try {
+    const client = db.getRedisClient();
+    return await client.ttl(key);
+  } catch (error) {
+    console.error('Redis TTL error:', error);
+    return -1;
+  }
+  
 }
 module.exports = {
   cacheData,
