@@ -57,10 +57,20 @@ async function deleteCourse(req, res) {
 
   res.status(200).send('Course deleted');
 }
+async function getCourses(req, res) {
+  try {
+    const courses = await mongoService.findAll('courses');
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+    res.status(500).json({ error: 'Error fetching courses' });
+  }
+}
 
 module.exports = {
   createCourse,
   getCourse,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  getCourses,
 };
