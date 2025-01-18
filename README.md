@@ -26,6 +26,7 @@ Pour installer et lancer le projet, suivez les étapes ci-dessous :
 
 ### La structure du projet
    Le projet est organisé de manière modulaire pour assurer une séparation claire des responsabilités et une maintenance facile. Voici un aperçu de la structure du projet :
+```
    ├── src/
    │   ├── config/
    │   │   ├── db.js         # Configuration des bases de données
@@ -41,6 +42,7 @@ Pour installer et lancer le projet, suivez les étapes ci-dessous :
    ├── .env                         # Variables d'environnement
    ├── package.json
    └── package-lock.json
+```
 
 ### Les choix techniques
 1. Architecture
@@ -52,3 +54,6 @@ Pour installer et lancer le projet, suivez les étapes ci-dessous :
    - MongoDB : Utilisé pour stocker les données de manière persistante avec une structure flexible et évolutive. MongoDB est une base de données NoSQL orientée documents, ce qui permet de gérer des données semi-structurées et non structurées efficacement.
    - Redis : Utilisé comme cache pour améliorer les performances de l'application en stockant temporairement les données fréquemment consultées. Redis est une base de données en mémoire, clé-valeur, qui offre des temps de réponse très rapides.
 
+### Les Outils
+1. MongoDB Compass: Pour connecter
+2. Redis CLI:

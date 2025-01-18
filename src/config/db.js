@@ -15,7 +15,7 @@ async function connectMongo(retries = MAX_RETRIES) {
     try {
     mongoClient = new MongoClient(config.mongodb.uri);
       await mongoClient.connect();
-      db = mongoClient.db(config.mongoDbName);
+      db = mongoClient.db(config.mongodb.dbName);
       console.log('Connected to MongoDB');
       break;
     } catch (error) {
